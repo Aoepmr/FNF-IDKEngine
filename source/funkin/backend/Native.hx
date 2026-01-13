@@ -1,5 +1,7 @@
 package funkin.backend;
 
+import funkin.backend.windows.WinAPI;
+import funkin.backend.windows.WindowTheme;
 
 import lime.app.Application;
 import lime.system.Display;
@@ -105,6 +107,8 @@ class Native
 
 			Application.current.window.x = Std.int((Application.current.window.display.bounds.width - Application.current.window.width) / 2);
 			Application.current.window.y = Std.int((Application.current.window.display.bounds.height - Application.current.window.height) / 2);
+
+			WinAPI.setWindowTheme(WindowTheme.DARK);
 		}
 
 		untyped __cpp__('
