@@ -146,6 +146,7 @@ class PsychUIBox extends FlxSpriteGroup
 						selectedTab = tab;
 						_lastClick = 0;
 						if(broadcastBoxEvents) PsychUIEventHandler.event(CLICK_EVENT, this);
+						FlxG.sound.play(Paths.sound('editorSounds/ClickUp'), 0.7);
 					}
 					else if(selectedTab != tab) continue;
 				}
@@ -161,6 +162,7 @@ class PsychUIBox extends FlxSpriteGroup
 		{
 			if(broadcastBoxEvents)
 				PsychUIEventHandler.event(MINIMIZE_EVENT, this);
+				FlxG.sound.play(Paths.sound('editorSounds/ClickDown'), 0.7);
 		}
 		else if(selectedTab != null && !isMinimized)
 			selectedTab.updateMenu(this, elapsed);

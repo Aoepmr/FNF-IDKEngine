@@ -281,6 +281,7 @@ class EditorPlayState extends MusicBeatSubstate
 		inst.looped = false;
 		inst.onComplete = finishSong;
 		inst.volume = vocals.volume = opponentVocals.volume = 1;
+		inst.pitch = playbackRate;
 		FlxG.sound.list.add(inst);
 
 		FlxG.sound.music.pause();
