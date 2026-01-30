@@ -1,17 +1,18 @@
 package funkin.backend.windows;
 
-import funkin.backend.windows.WindowTheme;
-
 // W.I.P (bro actually everything here is W.I.P)
 
-#if windows
+#if(cpp && windows)
 @:headerCode('
 #include <windows.h>
 #include <hxcpp.h>
 #include <dwmapi.h>
 ')
+#end
+
 class WindowController
 {
+	#if(cpp && windows)
 	public static function hide(?title:String = ""):Void
 	{
 		var hwnd = getWindowHandle(title);
@@ -87,33 +88,16 @@ class WindowController
 		', hwnd);
 	}
 
-	// Windows 11 only
-	public static function setTheme(theme:WindowTheme, ?title:String = ""):Void
-	{
-		var hwnd = getWindowHandle(title);
-		if (hwnd == 0)
-			return;
-
-		untyped __cpp__('
-			BOOL useDark = ({1} == 1);
-
-			DwmSetWindowAttribute(
-				(HWND)(intptr_t){0},
-				20,
-				&useDark,
-				sizeof(useDark)
-			);
-		', hwnd, theme);
-	}
-
+	// TO DO: Wind a better way to get the window handle
 	private static function getWindowHandle(?title:String = ""):Int
 	{
 		if (title == null || title == "")
 			title = openfl.Lib.application.window.title;
 
 		return
-			untyped __cpp__('(intptr_t)(FindWindowW(NULL, (const wchar_t*){0}.wc_str()) != NULL ? FindWindowW(NULL, (const wchar_t*){0}.wc_str()) : GetForegroundWindow())',
+			untyped __cpp__('(intptr_t)(FindWindowW(NULL, (const wchar_t*){0}.wc_str()) != NULL ? FindWindowW(NULL, (const wchar_t*){0}.wc_str()) : GetActiveWindow())',
 			title);
 	}
+	#end
 }
-#end
+

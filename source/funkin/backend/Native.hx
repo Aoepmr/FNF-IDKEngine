@@ -1,7 +1,7 @@
 package funkin.backend;
 
 import funkin.backend.windows.WinAPI;
-import funkin.backend.windows.WindowTheme;
+import funkin.backend.windows.WindowThemeManager.WindowTheme;
 
 import lime.app.Application;
 import lime.system.Display;

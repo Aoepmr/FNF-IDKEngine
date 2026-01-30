@@ -1,12 +1,13 @@
 package funkin.backend.windows;
 
+
+#if(cpp && windows)
 import funkin.backend.windows.*;
+import funkin.backend.windows.WindowThemeManager.WindowTheme;
+#end
 
-// Helper class for windows functions
-
-#if windows
 class WinAPI {
-
+    #if(cpp && windows)
     public static function hideWindow(?title:String = ""):Void {
         WindowController.hide(title);
     }
@@ -27,13 +28,13 @@ class WinAPI {
         WindowController.forceFocus(title);
     }
 
-    public static function setMousePosition(x:Int, y:Int):Void {
-        MouseController.setPosition(x, y);
-    }
-
     public static function setWindowTheme(theme:WindowTheme, ?title:String = ""):Void {
-        WindowController.setTheme(theme, title);
+        WindowThemeManager.setTheme(theme, title);
     }
 
+    public static function getSystemDefaultTheme():WindowTheme {
+        return WindowThemeManager.getDefaultTheme();
+    }
+
+    #end
 }
-#end
