@@ -153,7 +153,7 @@ class WindowController
 		', hwnd);
 	}
 
-	// TO DO: Find a better to do this
+	// TO DO: Find a better way to do this
 	private static function getWindowHandle(?title:String = ""):Int
 	{
 		if (title == null || title == "")
