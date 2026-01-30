@@ -9,7 +9,7 @@ import flixel.util.FlxSpriteUtil;
 	W.I.P
 	A preview of the notes in the chart editor
 	Based on VSlice Note Preview
-	Idk why is simplex, just sounds cool for me :v
+	Idk why is named simplex, just sounds cool for me :v
  */
 class SimplexNotePreview extends FlxSprite
 {

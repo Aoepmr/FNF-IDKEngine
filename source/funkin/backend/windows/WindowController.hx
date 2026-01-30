@@ -88,7 +88,72 @@ class WindowController
 		', hwnd);
 	}
 
-	// TO DO: Wind a better way to get the window handle
+
+
+	public static function enableBlurBehind(?title:String = ""):Void
+	{
+		var hwnd = getWindowHandle(title);
+		if (hwnd == 0) return;
+
+		untyped __cpp__('
+			HWND target = (HWND)(intptr_t){0};
+
+			DWM_BLURBEHIND bb;
+			ZeroMemory(&bb, sizeof(bb));
+
+			bb.dwFlags = DWM_BB_ENABLE;
+			bb.fEnable = TRUE;
+			bb.hRgnBlur = NULL;
+
+			DwmEnableBlurBehindWindow(target, &bb);
+		', hwnd);
+	}
+
+	public static function setLayered(?title:String = ""):Void
+	{
+		var hwnd = getWindowHandle(title);
+		if (hwnd == 0) return;
+
+		untyped __cpp__('
+			HWND target = (HWND)(intptr_t){0};
+
+			LONG_PTR ex = GetWindowLongPtrW(target, GWL_EXSTYLE);
+			ex |= WS_EX_LAYERED;
+			SetWindowLongPtrW(target, GWL_EXSTYLE, ex);
+		', hwnd);
+	}
+
+
+
+	public static function fakeDesktop(?title:String = ""):Void
+	{
+		var hwnd = getWindowHandle(title);
+		if (hwnd == 0) return;
+
+		untyped __cpp__('
+			HWND target = (HWND)(intptr_t){0};
+
+			LONG_PTR style = GetWindowLongPtrW(target, GWL_STYLE);
+			style &= ~(WS_CAPTION | WS_THICKFRAME | WS_SYSMENU);
+			style |= WS_POPUP | WS_VISIBLE;
+			SetWindowLongPtrW(target, GWL_STYLE, style);
+
+			LONG_PTR ex = GetWindowLongPtrW(target, GWL_EXSTYLE);
+			ex |= WS_EX_TOOLWINDOW | WS_EX_LAYERED | WS_EX_TRANSPARENT;
+			SetWindowLongPtrW(target, GWL_EXSTYLE, ex);
+
+			SetWindowPos(
+				target,
+				HWND_BOTTOM,
+				0, 0, 0, 0,
+				SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW | SWP_NOACTIVATE
+			);
+
+			ShowWindow(target, SW_SHOW);
+		', hwnd);
+	}
+
+	// TO DO: Wind a better
 	private static function getWindowHandle(?title:String = ""):Int
 	{
 		if (title == null || title == "")

@@ -32,9 +32,25 @@ class WinAPI {
         WindowThemeManager.setTheme(theme, title);
     }
 
-    public static function getSystemDefaultTheme():WindowTheme {
+    public static function getSystemTheme():WindowTheme {
         return WindowThemeManager.getDefaultTheme();
     }
 
+    public static function themeFromString(string:String):WindowTheme {
+        return WindowTheme.fromString(string);
+    }
+
+    public static function sendWindowToDesktop(?title:String = ""):Void {
+        //lime.app.Application.current.window.borderless = true;
+        WindowController.fakeDesktop(title);
+    }
+
+    public static function setWindowLayered(?title:String = ""):Void {
+        WindowController.setLayered(title);
+    }
+
+    public static function enableWindowBlur(?title:String = ""):Void {
+        WindowController.enableBlurBehind(title);
+    }
     #end
 }

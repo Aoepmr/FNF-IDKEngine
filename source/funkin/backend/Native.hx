@@ -1,8 +1,5 @@
 package funkin.backend;
 
-import funkin.backend.windows.WinAPI;
-import funkin.backend.windows.WindowThemeManager.WindowTheme;
-
 import lime.app.Application;
 import lime.system.Display;
 import lime.system.System;
@@ -14,7 +11,7 @@ import openfl.Lib;
 #if (cpp && windows)
 @:buildXml('
 <target id="haxe">
-	<lib name="dwmapi.lib" if="windows"/>
+	<lib name="dwmapi.lib" 2if="windows"/>
 	<lib name="gdi32.lib" if="windows"/>
 </target>
 ')
@@ -107,8 +104,6 @@ class Native
 
 			Application.current.window.x = Std.int((Application.current.window.display.bounds.width - Application.current.window.width) / 2);
 			Application.current.window.y = Std.int((Application.current.window.display.bounds.height - Application.current.window.height) / 2);
-
-			WinAPI.setWindowTheme(WindowTheme.DARK);
 		}
 
 		untyped __cpp__('

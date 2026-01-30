@@ -5,6 +5,9 @@ import funkin.objects.StrumNote;
 import funkin.objects.NoteSplash;
 import funkin.objects.Alphabet;
 
+import funkin.backend.windows.WinAPI;
+import funkin.backend.windows.WindowThemeManager.WindowTheme;
+
 class VisualsSettingsSubState extends BaseOptionsMenu
 {
 	var noteOptionID:Int = -1;
@@ -160,6 +163,16 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			BOOL);
 		addOption(option);
 
+		#if (cpp && windows)
+		var option:Option = new Option('Window theme:',
+			'What theme do you prefer for the Game Window?',
+			'windowTheme',
+			STRING,
+			['Dark', 'Light', 'System']);
+		addOption(option);
+		option.onChange = onChangeWindowTheme;
+		#end
+
 		super();
 		add(notes);
 		add(splashes);
@@ -292,6 +305,17 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 	{
 		if(Main.fpsVar != null)
 			Main.fpsVar.visible = ClientPrefs.data.showFPS;
+	}
+	#end
+
+	#if (cpp && windows)
+	function onChangeWindowTheme()
+	{
+		var curWindowTheme = ClientPrefs.data.windowTheme;
+		if (curWindowTheme == 'System')
+			WinAPI.setWindowTheme(WinAPI.getSystemTheme());
+		else
+			WinAPI.setWindowTheme(WinAPI.themeFromString(curWindowTheme));
 	}
 	#end
 }

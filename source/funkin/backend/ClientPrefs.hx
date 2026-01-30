@@ -4,6 +4,9 @@ import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
 
+import funkin.backend.windows.WinAPI;
+import funkin.backend.windows.WindowThemeManager.WindowTheme;
+
 import funkin.states.TitleState;
 
 // Add a variable here and it will get automatically saved
@@ -43,6 +46,7 @@ import funkin.states.TitleState;
 	public var healthBarAlpha:Float = 1;
 	public var hitsoundVolume:Float = 0;
 	public var pauseMusic:String = 'Hold On';
+	public var windowTheme:String = 'Dark';
 	public var checkForUpdates:Bool = true;
 	public var comboStacking:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
@@ -214,6 +218,14 @@ class ClientPrefs {
 			FlxG.sound.muted = FlxG.save.data.mute;
 
 		#if DISCORD_ALLOWED DiscordClient.check(); #end
+
+		#if (cpp && windows)
+		if (data.windowTheme == 'System')
+			WinAPI.setWindowTheme(WinAPI.getSystemTheme());
+		else
+			WinAPI.setWindowTheme(WinAPI.themeFromString(data.windowTheme));
+		#end
+
 
 		// controls on a separate save file
 		var save:FlxSave = new FlxSave();

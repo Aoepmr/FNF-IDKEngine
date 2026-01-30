@@ -70,4 +70,15 @@ enum abstract WindowTheme(Int)
 {
 	var LIGHT = 0;
 	var DARK = 1;
+
+	@:from
+	public static function fromString(v:String):WindowTheme
+	{
+		return switch (v.toLowerCase())
+		{
+			case "dark": DARK;
+			case "light": LIGHT;
+			default: LIGHT;
+		}
+	}
 }
